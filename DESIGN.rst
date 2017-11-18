@@ -23,13 +23,15 @@ Contacts
 Specifications
 --------------
 
-MVP
+MVP:
+
 * Have a hardcoded string list stored in a file (downloaded from https://github.com/danielmiessler/SecLists)
 * Just allow fuzzing of a GET
 * Use a special character to specify the fuzzing position
 * Present results on a screen
 
 Backlog:
+
 * Fuzzing of POST requests
 * Specifying a file containing a list of the strings used for fuzzing
 * Display results on a web page
