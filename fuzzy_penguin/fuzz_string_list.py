@@ -20,12 +20,27 @@ class FuzzStringList(object):
         file.  If the file is specifed, it also checks it exists"""
         if fuzz_file:
             if not os.path.isfile(fuzz_file):
-                raise FileNotFoundError('specified file not found.')
+                raise FileNotFoundError('Specified file not found.')
             else:
+                if os.stat(fuzz_file).st_size == 0:
+                    raise EOFError
                 self._file_to_load = fuzz_file
         else:
             dir_path = os.path.dirname(os.path.realpath(__file__))
-            self._file_to_load = os.path.join(dir_path, DEFAULT_FUZZ_LIST)
+            default_file_path = os.path.join(dir_path, DEFAULT_FUZZ_LIST)
+
+            # make sure the default file actually exists before trying to use
+            if os.path.exists(default_file_path):
+                self._file_to_load = os.path.join(dir_path, DEFAULT_FUZZ_LIST)
+            else:
+                raise FileNotFoundError('Default file not found.')
 
     def load_fuzz_file(self):
-        pass
+        """Loads the specified or default file into a list"""
+
+        string_file = open(self._file_to_load, 'r')
+
+        for line in string_file:
+            self.string_list.append(line.strip())
+
+        string_file.close()
